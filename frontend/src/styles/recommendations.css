@@ -1,0 +1,216 @@
+/* Property details styling */
+.property-details {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+  padding: 0.75rem 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Listing tags */
+.listing-tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.listing-tag.sale {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.listing-tag.rent {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* Action icons */
+.action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.icon-heart {
+  color: #ef4444;
+  font-size: 1rem;
+}
+
+.icon-share {
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+/* Recommender info */
+.recommender-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+}
+
+.recommender-avatar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.recommender-avatar img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.star {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.detail-item {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  padding: 0 0.5rem;
+}
+
+.detail-item:not(:last-child) {
+  border-right: 1px solid #e5e7eb;
+}
+
+.detail-item::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+/* Property card styling */
+.property-card {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.property-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Image carousel */
+.slick-slider {
+  width: 100%;
+  height: 200px;
+}
+
+.slick-slide img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Property header */
+.property-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.property-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.property-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #3b82f6;
+  margin: 0.25rem 0;
+}
+
+.property-location {
+  display: flex;
+  align-items: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Recommendation note */
+.recommendation-note {
+  background-color: #eff6ff;
+  border-left: 3px solid #3b82f6;
+  padding: 0.75rem;
+  margin: 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: #1e40af;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.view-details-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.view-details-btn:hover {
+  background-color: #2563eb;
+}
+
+.view-details-btn::after {
+  content: '→';
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  line-height: 1;
+}

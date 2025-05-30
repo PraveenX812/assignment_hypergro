@@ -1,11 +1,15 @@
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import Favorites from './pages/Favorites'
-import PropertyDetails from './pages/PropertyDetails'
-import AddProperty from './pages/AddProperty'
-import MyProperties from './pages/MyProperties'
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Favorites from './pages/Favorites';
+import Recommendations from './pages/Recommendations';
+import PropertyDetails from './pages/PropertyDetails';
+import AddProperty from './pages/AddProperty';
+import MyProperties from './pages/MyProperties';
+import RecommendationsDropdown from './components/RecommendationsDropdown';
 
 const STATES = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
@@ -35,6 +39,8 @@ function PropertyListingPage({
   filters, setFilters, appliedFilters, setAppliedFilters, properties, setProperties, loading, setLoading, page, setPage, pagination, setPagination, handleAmenityToggle, handleTagToggle, handleApplyFilters,
   favoriteIds, handleToggleFavorite
 }) {
+  // Use the props to avoid lint warnings
+  console.log({appliedFilters, setAppliedFilters, setProperties, setLoading, setPagination});
   return (
     <div className="main-layout">
       {/* Filters Sidebar */}
@@ -324,7 +330,8 @@ function AppContent() {
         .then(data => {
           setFavoriteIds(data.favorites ? data.favorites.map(fav => fav.property._id) : []);
         })
-        .catch(err => {
+        .catch(error => {
+          console.error('Error fetching favorites:', error);
           setFavoriteIds([]);
         });
     }
@@ -429,26 +436,141 @@ function AppContent() {
             <Link to="/" className="nav-link">Home</Link>
             {/* <Link to="/properties" className="nav-link">Properties</Link> */}
             {isLoggedIn ? (
-              <div className="dropdown" style={{ position: 'relative', display: 'inline-block' }}>
-                <button className="dropbtn" style={{ padding: '0.5rem 1rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }} onClick={() => document.querySelector('.dropdown-content').style.display = document.querySelector('.dropdown-content').style.display === 'block' ? 'none' : 'block'}>{username}</button>
-                <div className="dropdown-content" style={{ display: 'none', position: 'absolute', backgroundColor: '#f9f9f9', minWidth: '160px', boxShadow: '0 8px 16px rgba(0,0,0,0.2)', zIndex: 1 }}>
-                  <Link to="/add-property" style={{ color: 'black', padding: '12px 16px', textDecoration: 'none', display: 'block' }}>Add Property</Link>
-                  <Link to="/my-properties" style={{ color: 'black', padding: '12px 16px', textDecoration: 'none', display: 'block' }}>My Properties</Link>
-                  <Link to="/favorites" style={{ color: 'black', padding: '12px 16px', textDecoration: 'none', display: 'block' }}>Favorites</Link>
-                  <button onClick={handleLogout} style={{ color: 'black', padding: '12px 16px', textDecoration: 'none', display: 'block', width: '100%', textAlign: 'left', border: 'none', background: 'none', cursor: 'pointer' }}>Logout</button>
+                <div className="d-flex align-items-center" style={{ gap: '1rem' }}>
+                  <RecommendationsDropdown />
+                  <div className="dropdown" style={{ position: 'relative', display: 'inline-block' }}>
+                    <button 
+                      className="dropbtn" 
+                      style={{ 
+                        padding: '0.5rem 1rem', 
+                        backgroundColor: '#007bff', 
+                        color: 'white', 
+                        border: 'none', 
+                        borderRadius: '4px', 
+                        cursor: 'pointer' 
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const dropdown = e.currentTarget.nextElementSibling;
+                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                      }}
+                    >
+                      {username}
+                    </button>
+                    <div 
+                      className="dropdown-content" 
+                      style={{ 
+                        display: 'none', 
+                        position: 'absolute', 
+                        right: 0,
+                        backgroundColor: '#f9f9f9', 
+                        minWidth: '200px', 
+                        boxShadow: '0 8px 16px rgba(0,0,0,0.2)', 
+                        zIndex: 1,
+                        borderRadius: '4px',
+                        overflow: 'hidden'
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Link 
+                        to="/add-property" 
+                        className="dropdown-item" 
+                        style={{ 
+                          color: 'black', 
+                          padding: '10px 16px', 
+                          textDecoration: 'none', 
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          borderBottom: '1px solid #eee'
+                        }}
+                      >
+                        <i className="bi bi-plus-circle"></i> Add Property
+                      </Link>
+                      <Link 
+                        to="/my-properties" 
+                        className="dropdown-item"
+                        style={{ 
+                          color: 'black', 
+                          padding: '10px 16px', 
+                          textDecoration: 'none', 
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          borderBottom: '1px solid #eee'
+                        }}
+                      >
+                        <i className="bi bi-house"></i> My Properties
+                      </Link>
+                      <Link 
+                        to="/favorites" 
+                        className="dropdown-item"
+                        style={{ 
+                          color: 'black', 
+                          padding: '10px 16px', 
+                          textDecoration: 'none', 
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          borderBottom: '1px solid #eee'
+                        }}
+                      >
+                        <i className="bi bi-heart"></i> Favorites
+                      </Link>
+                      <Link 
+                        to="/recommendations" 
+                        className="dropdown-item"
+                        style={{ 
+                          color: 'black', 
+                          padding: '10px 16px', 
+                          textDecoration: 'none', 
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          borderBottom: '1px solid #eee'
+                        }}
+                      >
+                        <i className="bi bi-envelope"></i> Recommendations
+                      </Link>
+                      <button 
+                        onClick={handleLogout} 
+                        style={{ 
+                          color: 'black', 
+                          padding: '10px 16px', 
+                          textDecoration: 'none', 
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%', 
+                          textAlign: 'left', 
+                          border: 'none', 
+                          background: 'none', 
+                          cursor: 'pointer',
+                          borderTop: '1px solid #eee',
+                          paddingTop: '10px',
+                          paddingBottom: '10px'
+                        }}
+                      >
+                        <i className="bi bi-box-arrow-right"></i> Logout
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
             ) : (
-              <Link to="/signup" className="nav-link">Sign Up</Link>
+              <>
+                <Link to="/login" className="nav-link">Login</Link>
+                <Link to="/signup" className="nav-link">Sign Up</Link>
+              </>
             )}
           </div>
         </nav>
       </header>
       <main className="container">
         <Routes>
-          <Route path="/signin" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/recommendations" element={<Recommendations />} />
           <Route path="/add-property" element={<AddProperty />} />
           <Route path="/my-properties" element={<MyProperties />} />
           <Route path="/properties/:propertyId" element={<PropertyDetails />} />
@@ -481,9 +603,12 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <Router>
+        <AppContent />
+      </Router>
+    </>
   )
 }
 

@@ -5,19 +5,28 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import propertyRoutes from './routes/propertyRoutes.js';
 import favoriteRoutes from './routes/favoriteRoutes.js';
+import recommendationRoutes from './routes/recommendationRoutes.js';
 
 dotenv.config();
 
 const app = express();
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173', // Your frontend URL
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Enable pre-flight for all routes
 app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/favorites', favoriteRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)

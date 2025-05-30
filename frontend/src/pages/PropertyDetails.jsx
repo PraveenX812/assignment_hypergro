@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import RecommendPropertyDialog from '../components/RecommendPropertyDialog';
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showRecommendDialog, setShowRecommendDialog] = useState(false);
 
   useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+    
     setLoading(true);
     fetch(`http://localhost:5000/api/properties/${propertyId}`)
       .then(res => {
@@ -45,9 +53,28 @@ const PropertyDetails = () => {
       <div style={{ marginBottom: 8 }}><b>Tags:</b> {property.tags && property.tags.length ? property.tags.join(', ') : 'None'}</div>
       <div style={{ marginBottom: 8 }}><b>Description:</b> {property.description || 'No description provided.'}</div>
       <div style={{ marginBottom: 8 }}><b>Owner:</b> {property.owner ? (property.owner.name || property.owner) : 'N/A'}</div>
-      <div style={{ marginBottom: 8 }}><b>Color:</b> <span style={{ display: 'inline-block', width: 24, height: 24, background: property.colorTheme, border: '1px solid #ccc', borderRadius: 4, verticalAlign: 'middle', marginRight: 8 }}></span>{property.colorTheme || 'N/A'}</div>
+      <div style={{ marginBottom: 24 }}><b>Color:</b> <span style={{ display: 'inline-block', width: 24, height: 24, background: property.colorTheme, border: '1px solid #ccc', borderRadius: 4, verticalAlign: 'middle', marginRight: 8 }}></span>{property.colorTheme || 'N/A'}</div>
+      
+      {isLoggedIn && (
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <Button 
+            variant="primary" 
+            onClick={() => setShowRecommendDialog(true)}
+            style={{ padding: '10px 24px', fontSize: '1rem', fontWeight: 500 }}
+          >
+            <i className="bi bi-share me-2"></i>Recommend to a Friend
+          </Button>
+        </div>
+      )}
+      
+      {showRecommendDialog && (
+        <RecommendPropertyDialog 
+          propertyId={propertyId} 
+          onClose={() => setShowRecommendDialog(false)} 
+        />
+      )}
     </div>
   );
 };
 
-export default PropertyDetails; 
+export default PropertyDetails;
