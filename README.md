@@ -13,7 +13,7 @@ A full-stack web application built with Node.js/Express backend and react.js.
 
 
 ### Home Page with Property Listings
-![Home Page](https://cascade.metadoc.ai/static/8b4b9a1d-fb7d-4f5b-8e3d-6f9e8d7c6b5a/8b4b9a1d-fb7d-4f5b-8e3d-6f9e8d7c6b5a)
+![Home Page]((https://github.com/PraveenX812/assignment_hypergro/blob/main/frontend/Screenshot%202025-05-31%20132415.png))
 
 ### Property Search with Filters
 ![Property Search](https://cascade.metadoc.ai/static/7a3c2b1d-4e5f-6g7h-8i9j-0k1l2m3n4o5p/7a3c2b1d-4e5f-6g7h-8i9j-0k1l2m3n4o5p)
