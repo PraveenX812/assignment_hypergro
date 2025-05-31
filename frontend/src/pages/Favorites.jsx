@@ -18,8 +18,10 @@ const Favorites = () => {
       setLoading(false);
       return;
     }
-    fetch('http://localhost:5000/api/favorites', {
-      headers: { 'Authorization': `Bearer ${token}` }
+    fetch('/api/favorites', {
+      headers: { 
+        'Authorization': `Bearer ${token}` 
+      }
     })
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch favorites');
@@ -42,7 +44,7 @@ const Favorites = () => {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5000/api/favorites/${propertyId}`, {
+      const response = await fetch(`/api/favorites/${propertyId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

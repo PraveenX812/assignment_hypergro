@@ -29,7 +29,7 @@ const Home = () => {
         }
       });
 
-      const response = await fetch(`http://localhost:5000/api/properties?${queryParams}`);
+      const response = await fetch(`/api/properties?${queryParams}`);
       if (!response.ok) {
         throw new Error('Failed to fetch properties');
       }
