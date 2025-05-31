@@ -10,7 +10,6 @@ export const auth = async (req, res, next) => {
       throw new Error();
     }
 
-    // Check if token is blacklisted
     const isBlacklisted = await TokenBlacklist.findOne({ token });
     if (isBlacklisted) {
       throw new Error('Token has been invalidated');
@@ -22,7 +21,6 @@ export const auth = async (req, res, next) => {
     if (!user) {
       throw new Error();
     }
-
     req.token = token;
     req.user = user;
     next();

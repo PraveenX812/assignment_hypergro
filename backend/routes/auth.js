@@ -6,18 +6,15 @@ import TokenBlacklist from '../models/TokenBlacklist.js';
 
 const router = express.Router();
 
-// Register a new user
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already registered' });
     }
 
-    // Create new user
     const user = new User({
       name,
       email,
@@ -26,7 +23,6 @@ router.post('/register', async (req, res) => {
 
     await user.save();
 
-    // Generate token
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
@@ -46,24 +42,20 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Generate token
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
@@ -83,7 +75,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get current user profile
 router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
@@ -95,10 +86,8 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-// Logout user
 router.post('/logout', auth, async (req, res) => {
   try {
-    // Add token to blacklist
     const blacklistedToken = new TokenBlacklist({
       token: req.token
     });

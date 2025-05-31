@@ -6,7 +6,6 @@ import Property from '../models/Property.js';
 
 dotenv.config();
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
@@ -21,7 +20,6 @@ const processFile = async () => {
     }));
 
   for await (const record of parser) {
-    // Transform the data to match our schema
     const property = {
       title: record.title,
       type: record.type,
@@ -40,24 +38,20 @@ const processFile = async () => {
       rating: parseFloat(record.rating),
       isVerified: record.isVerified === 'TRUE',
       listingType: record.listingType,
-      isSample: true // Flag to identify sample properties
+      isSample: true 
     };
     records.push(property);
   }
 
   try {
-    // Clear existing sample properties
     await Property.deleteMany({ isSample: true });
     console.log('Cleared existing sample properties');
 
-    // Insert new properties
     await Property.insertMany(records);
     console.log(`Successfully imported ${records.length} properties`);
   } catch (error) {
     console.error('Error importing properties:', error);
   }
-
-  // Close MongoDB connection
   mongoose.connection.close();
 };
 

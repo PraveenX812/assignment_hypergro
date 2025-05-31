@@ -22,15 +22,12 @@ const users = [
 
 const seedUsers = async () => {
   try {
-    // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to MongoDB');
 
-    // Clear existing users
     await User.deleteMany({});
     console.log('Cleared existing users');
 
-    // Insert new users
     const createdUsers = await User.insertMany(users);
     console.log('Added users:', createdUsers.map(user => ({
       name: user.name,

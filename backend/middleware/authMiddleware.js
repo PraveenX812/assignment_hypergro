@@ -5,32 +5,26 @@ export const protect = async (req, res, next) => {
   try {
     let token;
 
-    // Log incoming headers for debugging
-    console.log('Request headers:', req.headers);
+    // console.log('Request headers:', req.headers);
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
       try {
-        // Get token from header
         token = req.headers.authorization.split(' ')[1];
-        
         if (!token) {
           return res.status(401).json({ error: 'Not authorized, no token provided' });
         }
 
-        // Verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         
         if (!decoded) {
           return res.status(401).json({ error: 'Not authorized, invalid token' });
         }
 
-        // Use either decoded.id or decoded.userId
         const userId = decoded.userId || decoded.id;
         if (!userId) {
           return res.status(401).json({ error: 'Not authorized, invalid token format' });
         }
 
-        // Get user from the token
         const user = await User.findById(userId).select('-password');
         
         if (!user) {

@@ -7,7 +7,6 @@ export const recommendProperty = async (req, res) => {
     const { propertyId, toEmail, message } = req.body;
     const fromUserId = req.user._id;
 
-    // Input validation
     if (!propertyId || !toEmail) {
       return res.status(400).json({ 
         success: false,
@@ -15,7 +14,6 @@ export const recommendProperty = async (req, res) => {
       });
     }
 
-    // Check if property exists
     const property = await Property.findById(propertyId);
     if (!property) {
       return res.status(404).json({ 
@@ -24,7 +22,6 @@ export const recommendProperty = async (req, res) => {
       });
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(toEmail)) {
       return res.status(400).json({ 
@@ -33,7 +30,6 @@ export const recommendProperty = async (req, res) => {
       });
     }
 
-    // Check if recipient exists
     const toUser = await User.findOne({ email: toEmail.toLowerCase().trim() });
     if (!toUser) {
       return res.status(404).json({ 
@@ -42,7 +38,6 @@ export const recommendProperty = async (req, res) => {
       });
     }
 
-    // Check if not recommending to self
     if (toUser._id.toString() === fromUserId.toString()) {
       return res.status(400).json({ 
         success: false,
@@ -50,7 +45,6 @@ export const recommendProperty = async (req, res) => {
       });
     }
 
-    // Check for duplicate recommendation
     const existingRecommendation = await Recommendation.findOne({
       property: propertyId,
       fromUser: fromUserId,
@@ -65,7 +59,6 @@ export const recommendProperty = async (req, res) => {
     }
 
     try {
-      // Create and save recommendation
       const recommendation = new Recommendation({
         property: propertyId,
         fromUser: fromUserId,
@@ -75,7 +68,6 @@ export const recommendProperty = async (req, res) => {
 
       await recommendation.save();
 
-      // Populate the recommendation with user and property details
       const populatedRecommendation = await Recommendation.findById(recommendation._id)
         .populate('property')
         .populate('fromUser', 'name email')
@@ -101,14 +93,12 @@ export const getReceivedRecommendations = async (req, res) => {
     const userId = req.user._id;
     console.log('Fetching recommendations for user:', userId);
     
-    // First, check if the user exists
     const user = await User.findById(userId);
     if (!user) {
       console.error('User not found:', userId);
       return res.status(404).json({ error: 'User not found' });
     }
     
-    // Find recommendations for the user
     const recommendations = await Recommendation.find({ toUser: userId })
       .populate({
         path: 'property',
@@ -121,11 +111,9 @@ export const getReceivedRecommendations = async (req, res) => {
         model: 'User'
       })
       .sort({ createdAt: -1 })
-      .lean(); // Convert to plain JavaScript objects
-
+      .lean();
     console.log(`Found ${recommendations.length} recommendations for user ${userId}`);
     
-    // Format the response
     const formattedRecommendations = recommendations.map(rec => ({
       _id: rec._id,
       message: rec.message,
@@ -156,7 +144,7 @@ export const searchUsers = async (req, res) => {
 
     const users = await User.find({
       $and: [
-        { _id: { $ne: currentUserId } }, // Exclude current user
+        { _id: { $ne: currentUserId } },
         {
           $or: [
             { email: { $regex: query, $options: 'i' } },
