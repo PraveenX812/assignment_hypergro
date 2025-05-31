@@ -312,7 +312,7 @@ function AppContent() {
     if (token) {
       setIsLoggedIn(true);
       // Fetch user profile to get username
-      fetch('http://localhost:5000/api/auth/me', {
+      fetch('/api/auth/me', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
         .then(res => res.json())
@@ -323,7 +323,7 @@ function AppContent() {
           console.error('Error fetching user profile:', err);
         });
       // Fetch user's favorite property IDs
-      fetch('http://localhost:5000/api/favorites', {
+      fetch('/api/favorites', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
         .then(res => res.json())
@@ -376,7 +376,7 @@ function AppContent() {
     }
     const isFav = favoriteIds.includes(property._id);
     try {
-      const response = await fetch(`http://localhost:5000/api/favorites/${property._id}`, {
+      const response = await fetch(`/api/favorites/${property._id}`, {
         method: isFav ? 'DELETE' : 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -418,7 +418,7 @@ function AppContent() {
     if (appliedFilters.amenities.length > 0) params.append('amenities', appliedFilters.amenities.join(','));
     if (appliedFilters.tags.length > 0) params.append('tags', appliedFilters.tags.join(','));
 
-    fetch(`http://localhost:5000/api/properties?${params.toString()}`)
+    fetch(`/api/properties?${params.toString()}`)
       .then(res => res.json())
       .then(data => {
         setProperties(data.properties || []);
