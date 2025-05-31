@@ -24,7 +24,7 @@ const RecommendPropertyDialog = ({ propertyId, onClose }) => {
           throw new Error('Authentication required');
         }
         
-        console.log('Searching for users with query:', searchQuery);
+        // console.log('Searching for users with query:', searchQuery);
         const response = await api.get(
           `/recommendations/search-users?query=${encodeURIComponent(searchQuery)}`,
           {
@@ -32,7 +32,7 @@ const RecommendPropertyDialog = ({ propertyId, onClose }) => {
           }
         );
         
-        console.log('Search response:', response);
+        // console.log('Search response:', response);
         
         if (response.status === 200) {
           setSearchResults(response.data);

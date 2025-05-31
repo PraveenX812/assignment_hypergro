@@ -24,10 +24,10 @@ const Recommendations = () => {
     let isMounted = true; // Track if component is still mounted
 
     const fetchRecommendations = async () => {
-      console.log('Fetching recommendations...');
+      // console.log('Fetching recommendations...');
       try {
         const token = localStorage.getItem('token');
-        console.log('Auth token:', token ? 'Token exists' : 'No token found');
+        // console.log('Auth token:', token ? 'Token exists' : 'No token found');
         
         const response = await api.get('/recommendations/received', {
           headers: {
@@ -35,11 +35,11 @@ const Recommendations = () => {
           }
         });
         
-        console.log('Recommendations API response:', response);
+        // console.log('Recommendations API response:', response);
         
         if (response.data) {
           setRecommendations(response.data);
-          console.log('Recommendations data:', response.data);
+          // console.log('Recommendations data:', response.data);
           setError(null);
         } else {
           console.error('No data in response:', response);

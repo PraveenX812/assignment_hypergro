@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : 'http://localhost:5000/api',
+  baseURL: 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,7 +22,7 @@ api.interceptors.request.use(
     // If token exists, add it to the headers
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(`[API] ${config.method.toUpperCase()} ${config.url} - Request started`);
+      // console.log(`[API] ${config.method.toUpperCase()} ${config.url} - Request started`);
     } else {
       console.warn('[API] No auth token found for request:', config.url);
     }
@@ -40,7 +40,7 @@ api.interceptors.response.use(
   (response) => {
     const endTime = new Date();
     const duration = endTime - response.config.metadata.startTime;
-    console.log(`[API] ${response.config.method.toUpperCase()} ${response.config.url} - ${response.status} (${duration}ms)`);
+    // console.log(`[API] ${response.config.method.toUpperCase()} ${response.config.url} - ${response.status} (${duration}ms)`);
     return response;
   },
   (error) => {

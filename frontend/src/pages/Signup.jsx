@@ -11,7 +11,7 @@ export default function Signup() {
     e.preventDefault();
     setError('');
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
@@ -21,7 +21,7 @@ export default function Signup() {
         throw new Error(data.error || 'Signup failed');
       }
       // Handle successful signup, e.g., redirect to login
-      console.log('Signup successful:', data);
+      // console.log('Signup successful:', data);
     } catch (err) {
       setError(err.message);
     }

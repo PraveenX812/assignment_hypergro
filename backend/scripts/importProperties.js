@@ -2,6 +2,7 @@ import fs from 'fs';
 import { parse } from 'csv-parse';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 import Property from '../models/Property.js';
 
 dotenv.config();
@@ -13,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URI)
 const processFile = async () => {
   const records = [];
   const parser = fs
-    .createReadStream('data.csv')
+    .createReadStream(path.join(process.cwd(), '..', 'backend', 'data.csv'))
     .pipe(parse({
       columns: true,
       skip_empty_lines: true
@@ -45,10 +46,10 @@ const processFile = async () => {
 
   try {
     await Property.deleteMany({ isSample: true });
-    console.log('Cleared existing sample properties');
+    // console.log('Cleared existing sample properties');
 
     await Property.insertMany(records);
-    console.log(`Successfully imported ${records.length} properties`);
+    // console.log(`Successfully imported ${records.length} properties`);
   } catch (error) {
     console.error('Error importing properties:', error);
   }

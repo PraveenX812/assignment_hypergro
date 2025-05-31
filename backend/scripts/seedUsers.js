@@ -23,18 +23,18 @@ const users = [
 const seedUsers = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Connected to MongoDB');
+    // console.log('Connected to MongoDB');
 
     await User.deleteMany({});
-    console.log('Cleared existing users');
+    // console.log('Cleared existing users');
 
     const createdUsers = await User.insertMany(users);
-    console.log('Added users:', createdUsers.map(user => ({
+    // console.log('Added users:', createdUsers.map(user => ({
       name: user.name,
       email: user.email
     })));
 
-    console.log('Database seeded successfully');
+    // console.log('Database seeded successfully');
     process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);

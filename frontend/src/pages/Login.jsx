@@ -11,7 +11,7 @@ export default function Login() {
     e.preventDefault();
     setError('');
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -23,7 +23,7 @@ export default function Login() {
       // Store token in localStorage
       localStorage.setItem('token', data.token);
       // Handle successful login, e.g., redirect
-      console.log('Login successful:', data);
+      // console.log('Login successful:', data);
       navigate('/'); // Redirect to home page
     } catch (err) {
       setError(err.message);

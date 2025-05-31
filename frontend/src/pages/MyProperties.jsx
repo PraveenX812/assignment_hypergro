@@ -21,7 +21,7 @@ const MyProperties = () => {
       setLoading(false);
       return;
     }
-    fetch('/api/properties/my-properties', {
+    fetch('http://localhost:5000/api/properties/my-properties', {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => {
@@ -42,7 +42,7 @@ const MyProperties = () => {
     if (!window.confirm('Are you sure you want to delete this property?')) return;
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`/api/properties/${propertyId}`, {
+      const response = await fetch(`http://localhost:5000/api/properties/${propertyId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -92,7 +92,7 @@ const MyProperties = () => {
       const filteredEditForm = Object.fromEntries(
         Object.entries(editForm).filter(([key]) => allowed.includes(key))
       );
-      const response = await fetch(`/api/properties/${editingId}`, {
+      const response = await fetch(`http://localhost:5000/api/properties/${editingId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

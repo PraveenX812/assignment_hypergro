@@ -91,7 +91,7 @@ export const recommendProperty = async (req, res) => {
 export const getReceivedRecommendations = async (req, res) => {
   try {
     const userId = req.user._id;
-    console.log('Fetching recommendations for user:', userId);
+    // console.log('Fetching recommendations for user:', userId);
     
     const user = await User.findById(userId);
     if (!user) {
@@ -112,7 +112,7 @@ export const getReceivedRecommendations = async (req, res) => {
       })
       .sort({ createdAt: -1 })
       .lean();
-    console.log(`Found ${recommendations.length} recommendations for user ${userId}`);
+    // console.log(`Found ${recommendations.length} recommendations for user ${userId}`);
     
     const formattedRecommendations = recommendations.map(rec => ({
       _id: rec._id,

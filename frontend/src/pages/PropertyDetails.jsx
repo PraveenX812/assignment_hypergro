@@ -17,7 +17,7 @@ const PropertyDetails = () => {
     setIsLoggedIn(!!token);
     
     setLoading(true);
-    fetch(`/api/properties/${propertyId}`)
+    fetch(`http://localhost:5000/api/properties/${propertyId}`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch property details');
         return res.json();
