@@ -2,12 +2,19 @@
 
 A full-stack web application built with Node.js/Express backend and react.js.
 
-## Features
+## Tech stacks
 
 - **Backend**: RESTful API built with Node.js and Express
 - **Frontend**: UI built with React and Vite
-- **Data Management**: CSV data processing capabilities
-- **Authentication**: JWT-based authentication system
+- **DB**- MongoDB
+
+## Features 
+
+- Implement CRUD operations for properties. Only the user who created the property is allowed to update or delete it.
+- Implement advanced search/filtering based on all 10+ attributes.
+- Implement User registration and login with email/password.
+- Allow users to favorite properties and perform CRUD on favorites.
+- Implement a feature that allows a user to recommend a property to another registered user. The recommending user should be able to search for the recipient using their email address. Once found, the selected property should be shared with the recipient and saved in their "Recommendations Received" section. The recipient can later view all the properties recommended to them by other users.
 
 ## Images
 
